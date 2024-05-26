@@ -48,6 +48,7 @@ export const signInWithGoogleRedirect = () =>
 
 export const db = getFirestore();
 
+//adding collection to the db
 export const addCollectionAndDocuments = async (
 	collectionKey,
 	objectsToAdd,
@@ -66,7 +67,7 @@ export const addCollectionAndDocuments = async (
 };
 
 export const getCategoriesAndDocuments = async () => {
-	const collectionRef = collection(db, "categories");
+	const collectionRef = collection(db, "collections");
 	const q = query(collectionRef);
 
 	const querySnapshot = await getDocs(q);
