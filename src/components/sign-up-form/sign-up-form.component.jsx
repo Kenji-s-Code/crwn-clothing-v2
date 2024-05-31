@@ -4,13 +4,12 @@ import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 
 import {
-	createAuthWithEmailAndPassword,
+	createAuthUserWithEmailAndPassword,
 	createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
 
-import "./sign-up-form.style.scss";
+import { SignUpContainer } from "./sign-up-form.styles";
 
-// objects
 const defaultFormFields = {
 	displayName: "",
 	email: "",
@@ -20,7 +19,6 @@ const defaultFormFields = {
 
 const SignUpForm = () => {
 	const [formFields, setFormFields] = useState(defaultFormFields);
-	// destructuring
 	const { displayName, email, password, confirmPassword } = formFields;
 
 	const resetFormFields = () => {
@@ -31,27 +29,27 @@ const SignUpForm = () => {
 		event.preventDefault();
 
 		if (password !== confirmPassword) {
-			alert("Password does not match");
+			alert("passwords do not match");
 			return;
 		}
 
 		try {
-			const { user } = await createAuthWithEmailAndPassword(email, password);
+			const { user } = await createAuthUserWithEmailAndPassword(
+				email,
+				password,
+			);
 
 			await createUserDocumentFromAuth(user, { displayName });
 			resetFormFields();
-		} catch (err) {
-			switch (err.code) {
-			}
-			if (err.code === "auth/email-already-in-use")
-				alert("try again, email already in use");
-			else {
-				console.log("encoutered and error", err);
+		} catch (error) {
+			if (error.code === "auth/email-already-in-use") {
+				alert("Cannot create user, email already in use");
+			} else {
+				console.log("user creation encountered an error", error);
 			}
 		}
 	};
 
-	// what happen when the value change inside the element
 	const handleChange = (event) => {
 		const { name, value } = event.target;
 
@@ -59,12 +57,12 @@ const SignUpForm = () => {
 	};
 
 	return (
-		<div className='sign-up-container'>
+		<SignUpContainer>
 			<h2>Don't have an account?</h2>
 			<span>Sign up with your email and password</span>
 			<form onSubmit={handleSubmit}>
 				<FormInput
-					label={"Display Name"}
+					label='Display Name'
 					type='text'
 					required
 					onChange={handleChange}
@@ -73,7 +71,7 @@ const SignUpForm = () => {
 				/>
 
 				<FormInput
-					label={"Email"}
+					label='Email'
 					type='email'
 					required
 					onChange={handleChange}
@@ -82,7 +80,7 @@ const SignUpForm = () => {
 				/>
 
 				<FormInput
-					label={"Password"}
+					label='Password'
 					type='password'
 					required
 					onChange={handleChange}
@@ -91,17 +89,16 @@ const SignUpForm = () => {
 				/>
 
 				<FormInput
-					label={"Confirm Password"}
+					label='Confirm Password'
 					type='password'
 					required
 					onChange={handleChange}
 					name='confirmPassword'
 					value={confirmPassword}
 				/>
-
 				<Button type='submit'>Sign Up</Button>
 			</form>
-		</div>
+		</SignUpContainer>
 	);
 };
 

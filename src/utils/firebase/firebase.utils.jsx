@@ -9,7 +9,6 @@ import {
 	signOut,
 	onAuthStateChanged,
 } from "firebase/auth";
-
 import {
 	getFirestore,
 	doc,
@@ -21,25 +20,23 @@ import {
 	getDocs,
 } from "firebase/firestore";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-	apiKey: "AIzaSyAV-nLr2-HNlKANRyrSquK-L2PGGNjkkpM",
-	authDomain: "crwn-clothing-db-248cc.firebaseapp.com",
-	projectId: "crwn-clothing-db-248cc",
-	storageBucket: "crwn-clothing-db-248cc.appspot.com",
-	messagingSenderId: "822307186850",
-	appId: "1:822307186850:web:b72b4fa0eed39aee768ffb",
+	apiKey: "AIzaSyDDU4V-_QV3M8GyhC9SVieRTDM4dbiT0Yk",
+	authDomain: "crwn-clothing-db-98d4d.firebaseapp.com",
+	projectId: "crwn-clothing-db-98d4d",
+	storageBucket: "crwn-clothing-db-98d4d.appspot.com",
+	messagingSenderId: "626766232035",
+	appId: "1:626766232035:web:506621582dab103a4d08d6",
 };
 
-// Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
 const googleProvider = new GoogleAuthProvider();
+
 googleProvider.setCustomParameters({
 	prompt: "select_account",
 });
 
-// sign-in method
 export const auth = getAuth();
 export const signInWithGooglePopup = () =>
 	signInWithPopup(auth, googleProvider);
@@ -48,7 +45,6 @@ export const signInWithGoogleRedirect = () =>
 
 export const db = getFirestore();
 
-//adding collection to the db
 export const addCollectionAndDocuments = async (
 	collectionKey,
 	objectsToAdd,
@@ -67,7 +63,7 @@ export const addCollectionAndDocuments = async (
 };
 
 export const getCategoriesAndDocuments = async () => {
-	const collectionRef = collection(db, "collections");
+	const collectionRef = collection(db, "categories");
 	const q = query(collectionRef);
 
 	const querySnapshot = await getDocs(q);
@@ -82,10 +78,9 @@ export const createUserDocumentFromAuth = async (
 
 	const userDocRef = doc(db, "users", userAuth.uid);
 
-	const userSnapShot = await getDoc(userDocRef);
+	const userSnapshot = await getDoc(userDocRef);
 
-	// if user does not exist
-	if (!userSnapShot.exists()) {
+	if (!userSnapshot.exists()) {
 		const { displayName, email } = userAuth;
 		const createdAt = new Date();
 
@@ -104,13 +99,13 @@ export const createUserDocumentFromAuth = async (
 	return userDocRef;
 };
 
-export const createAuthWithEmailAndPassword = async (email, password) => {
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
 	if (!email || !password) return;
 
 	return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const signInAuthWithEmailAndPassword = async (email, password) => {
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 	if (!email || !password) return;
 
 	return await signInWithEmailAndPassword(auth, email, password);
