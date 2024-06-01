@@ -19,14 +19,14 @@ import {
 	query,
 	getDocs,
 } from "firebase/firestore";
-
+// Your web app's Firebase configuration
 const firebaseConfig = {
-	apiKey: "AIzaSyDDU4V-_QV3M8GyhC9SVieRTDM4dbiT0Yk",
-	authDomain: "crwn-clothing-db-98d4d.firebaseapp.com",
-	projectId: "crwn-clothing-db-98d4d",
-	storageBucket: "crwn-clothing-db-98d4d.appspot.com",
-	messagingSenderId: "626766232035",
-	appId: "1:626766232035:web:506621582dab103a4d08d6",
+	apiKey: "AIzaSyAV-nLr2-HNlKANRyrSquK-L2PGGNjkkpM",
+	authDomain: "crwn-clothing-db-248cc.firebaseapp.com",
+	projectId: "crwn-clothing-db-248cc",
+	storageBucket: "crwn-clothing-db-248cc.appspot.com",
+	messagingSenderId: "822307186850",
+	appId: "1:822307186850:web:b72b4fa0eed39aee768ffb",
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -63,7 +63,7 @@ export const addCollectionAndDocuments = async (
 };
 
 export const getCategoriesAndDocuments = async () => {
-	const collectionRef = collection(db, "categories");
+	const collectionRef = collection(db, "collections");
 	const q = query(collectionRef);
 
 	const querySnapshot = await getDocs(q);
